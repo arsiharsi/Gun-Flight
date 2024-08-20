@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/weapons/pistol_and_some_others.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Weapons/shotgun.png" type="Texture" id=2]
+[ext_resource path="res://tscnes/weapons/bullets/bullet_riffle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sounds_and_music/weapons/shotgun_shot.wav" type="AudioStream" id=4]
+
+[node name="shotgun" type="Sprite"]
+show_behind_parent = true
+texture = ExtResource( 2 )
+offset = Vector2( 4, -1 )
+script = ExtResource( 1 )
+stun_time = 1.0
+feedback = 400
+timeout = 1.25
+isCluster = true
+ClusterAmmount = 8
+ClusterSpread = 0.25
+bullet = ExtResource( 3 )
+
+[node name="point" type="Position2D" parent="."]
+position = Vector2( 13, -2.5 )
+
+[node name="timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 24.0
+bus = "SFX"
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

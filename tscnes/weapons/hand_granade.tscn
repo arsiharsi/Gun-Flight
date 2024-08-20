@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/weapons/pistol_and_some_others.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Weapons/grenade.png" type="Texture" id=2]
+[ext_resource path="res://tscnes/weapons/bullets/grenade_bull.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sounds_and_music/weapons/grenade_throw.wav" type="AudioStream" id=4]
+
+[node name="hand_granade" type="Sprite"]
+show_behind_parent = true
+texture = ExtResource( 2 )
+offset = Vector2( -0.5, -1.5 )
+script = ExtResource( 1 )
+feedback = 50
+timeout = 0.5
+isRigid = true
+isRigidForce = 400.0
+bullet = ExtResource( 3 )
+
+[node name="point" type="Position2D" parent="."]
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

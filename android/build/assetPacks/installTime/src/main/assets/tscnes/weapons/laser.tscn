@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/weapons/pistol_and_some_others.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Weapons/laser.png" type="Texture" id=2]
+[ext_resource path="res://tscnes/weapons/bullets/laser_bull.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sounds_and_music/weapons/laser_shot.wav" type="AudioStream" id=4]
+
+[node name="laser" type="Sprite"]
+show_behind_parent = true
+texture = ExtResource( 2 )
+offset = Vector2( 10.5, -1 )
+script = ExtResource( 1 )
+feedback = 600
+timeout = 1.5
+bullet = ExtResource( 3 )
+
+[node name="point" type="Position2D" parent="."]
+position = Vector2( 20, -2 )
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

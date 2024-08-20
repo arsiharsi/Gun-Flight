@@ -1,0 +1,162 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://scripts/menu/boot_up.gd" type="Script" id=1]
+[ext_resource path="res://sprites/menu/labels/gf_log.png" type="Texture" id=2]
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://scripts/menu/boot_up_symbols.gd" type="Script" id=4]
+[ext_resource path="res://tscnes/GUI/display/console_of_val.tscn" type="PackedScene" id=5]
+
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=3]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=4]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=5]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=6]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=7]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="StreamTexture" id=8]
+load_path = "res://.import/gf_log.png-1c0644c07fbdfdbe5b8702b38c1874d5.stex"
+
+[sub_resource type="DynamicFont" id=1]
+size = 34
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "def"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "is loading", "is loading.", "is loading..", "is loading..." ]
+}
+
+[node name="start" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 511.722 ]
+}
+
+[node name="cl" type="CanvasLayer" parent="."]
+
+[node name="base" type="Control" parent="cl"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -513.5
+margin_top = -288.0
+margin_right = 513.5
+margin_bottom = 288.0
+
+[node name="logo" type="Position2D" parent="cl/base"]
+position = Vector2( 512, 288 )
+
+[node name="0" type="Sprite" parent="cl/base/logo"]
+position = Vector2( -236.979, -3.56357 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 74, 89 )
+script = ExtResource( 4 )
+
+[node name="1" type="Sprite" parent="cl/base/logo"]
+position = Vector2( -174.616, -0.890869 )
+texture = SubResource( 2 )
+region_enabled = true
+region_rect = Rect2( 75, 4, 59, 85 )
+script = ExtResource( 4 )
+
+[node name="2" type="Sprite" parent="cl/base/logo"]
+position = Vector2( -96.2171, -3.56357 )
+texture = SubResource( 3 )
+region_enabled = true
+region_rect = Rect2( 142, 4, 68, 85 )
+script = ExtResource( 4 )
+
+[node name="3" type="Sprite" parent="cl/base/logo"]
+position = Vector2( -12.4726, -2.67267 )
+texture = SubResource( 4 )
+region_enabled = true
+region_rect = Rect2( 243, 9, 44, 82 )
+script = ExtResource( 4 )
+
+[node name="4" type="Sprite" parent="cl/base/logo"]
+position = Vector2( 31.1814, -0.890869 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 289, 12, 36, 72 )
+script = ExtResource( 4 )
+
+[node name="5" type="Sprite" parent="cl/base/logo"]
+position = Vector2( 66.8173, -0.890869 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 331, -4, 20, 104 )
+script = ExtResource( 4 )
+
+[node name="6" type="Sprite" parent="cl/base/logo"]
+position = Vector2( 115.817, -0.890869 )
+texture = SubResource( 6 )
+region_enabled = true
+region_rect = Rect2( 362, 13, 54, 72 )
+script = ExtResource( 4 )
+
+[node name="7" type="Sprite" parent="cl/base/logo"]
+position = Vector2( 185.307, 0.89093 )
+texture = SubResource( 7 )
+region_enabled = true
+region_rect = Rect2( 432, 11, 60, 82 )
+script = ExtResource( 4 )
+
+[node name="8" type="Sprite" parent="cl/base/logo"]
+position = Vector2( 248.561, 3.05176e-05 )
+texture = SubResource( 8 )
+region_enabled = true
+region_rect = Rect2( 493, 9, 54, 81 )
+script = ExtResource( 4 )
+
+[node name="lbl" type="Label" parent="cl/base"]
+anchor_right = 0.5
+margin_left = 401.562
+margin_top = 388.913
+margin_right = 647.062
+margin_bottom = 423.913
+rect_pivot_offset = Vector2( 46.9749, -1.62039 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "is loading..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="anim" type="AnimationPlayer" parent="cl/base/lbl"]
+autoplay = "def"
+anims/def = SubResource( 9 )
+
+[node name="console_of_val" parent="cl/base" instance=ExtResource( 5 )]
+margin_left = 1.5
+margin_right = 100.5
+margin_bottom = 92.0
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 3.5
+autostart = true
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/GUI/display/console_of_val.gd" type="Script" id=1]
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 1
+font_data = ExtResource( 2 )
+
+[node name="console_of_val" type="Label"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "VALUES:
+MUSIC = 
+SFX = 
+SIDE = 
+TUTORIAL = "
+script = ExtResource( 1 )

@@ -1,0 +1,14 @@
+com.godot.game-jetified-godot-lib.release-0 C:\Users\пк\.gradle\caches\transforms-3\2213183893551b982c6a807ef97888e3\transformed\jetified-godot-lib.release\res
+com.godot.game-lifecycle-runtime-2.3.1-1 C:\Users\пк\.gradle\caches\transforms-3\3583eca40d69ce43b6621863908cd8a9\transformed\lifecycle-runtime-2.3.1\res
+com.godot.game-fragment-1.3.6-2 C:\Users\пк\.gradle\caches\transforms-3\70cc13e2f895dcde1db33096ac808cc6\transformed\fragment-1.3.6\res
+com.godot.game-jetified-savedstate-1.1.0-3 C:\Users\пк\.gradle\caches\transforms-3\85cb557932580fb0f5a8ee6d43b76824\transformed\jetified-savedstate-1.1.0\res
+com.godot.game-lifecycle-viewmodel-2.3.1-4 C:\Users\пк\.gradle\caches\transforms-3\c541b5eafcaa95ef66b4471cdd477b88\transformed\lifecycle-viewmodel-2.3.1\res
+com.godot.game-core-1.2.0-5 C:\Users\пк\.gradle\caches\transforms-3\cab1da514d18152bab16f7293c149bb2\transformed\core-1.2.0\res
+com.godot.game-pngs-6 D:\Godot\2 players_android\gun_flight\android\build\build\generated\res\pngs\release
+com.godot.game-resValues-7 D:\Godot\2 players_android\gun_flight\android\build\build\generated\res\resValues\release
+com.godot.game-rs-8 D:\Godot\2 players_android\gun_flight\android\build\build\generated\res\rs\release
+com.godot.game-mergeReleaseResources-9 D:\Godot\2 players_android\gun_flight\android\build\build\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.godot.game-mergeReleaseResources-10 D:\Godot\2 players_android\gun_flight\android\build\build\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.godot.game-merged_res-11 D:\Godot\2 players_android\gun_flight\android\build\build\intermediates\merged_res\release
+com.godot.game-build-12 D:\Godot\2 players_android\gun_flight\android\build\res
+com.godot.game-release-13 D:\Godot\2 players_android\gun_flight\android\build\src\release\res

@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/GUI/pause_screen/pause_cover.png" type="Texture" id=1]
+[ext_resource path="res://scripts/GUI/pause_screen/pause_screen.gd" type="Script" id=2]
+[ext_resource path="res://scripts/others_and_stuff/strech_to_rect.gd" type="Script" id=3]
+[ext_resource path="res://sprites/GUI/pause_screen/pause_button.png" type="Texture" id=4]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+uniform float Mult = 0;
+void fragment(){
+	vec2 transform = vec2(cos(TIME/2.0 + UV.x) * UV.x,sin(TIME/2.0 + UV.y) * UV.y)*Mult;
+	COLOR = texture(TEXTURE, transform + UV) + vec4(transform, cos(TIME*0.5), 0.1);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/Mult = 0.049
+
+[node name="pause_screen" type="Control"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -1024.0
+margin_top = -4.24264
+margin_right = -984.0
+margin_bottom = 35.7574
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+Screen_To_Show_Node = NodePath("../GUI_score/p_won")
+
+[node name="cover" type="Sprite" parent="."]
+visible = false
+material = SubResource( 2 )
+position = Vector2( 1023.98, 292.082 )
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="pause_button" type="TouchScreenButton" parent="."]
+pause_mode = 2
+position = Vector2( 1003.1, 21.2426 )
+normal = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="pressed" from="pause_button" to="." method="_on_pause_button_pressed"]

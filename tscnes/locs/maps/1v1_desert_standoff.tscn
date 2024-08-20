@@ -1,0 +1,351 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/others_and_stuff/strech_to_rect.gd" type="Script" id=2]
+[ext_resource path="res://scripts/GUI/display/GUI_score.gd" type="Script" id=3]
+[ext_resource path="res://scripts/for_maps/locations_script.gd" type="Script" id=4]
+[ext_resource path="res://scripts/for_maps/test_map/cv.gd" type="Script" id=5]
+[ext_resource path="res://sprites/menu/buttons/button_main.png" type="Texture" id=6]
+[ext_resource path="res://sprites/locs/desert_standoff/desert_standoff_misc.png" type="Texture" id=7]
+[ext_resource path="res://sprites/locs/desert_standoff/desert_standoff_bg.png" type="Texture" id=8]
+[ext_resource path="res://sounds_and_music/music/1v1_desert_standoff/Ambush.wav" type="AudioStream" id=9]
+[ext_resource path="res://tscnes/GUI/controls/joystick.tscn" type="PackedScene" id=10]
+[ext_resource path="res://tscnes/GUI/display/dynamic_camera.tscn" type="PackedScene" id=11]
+[ext_resource path="res://tscnes/players/player_base.tscn" type="PackedScene" id=12]
+[ext_resource path="res://sprites/locs/desert_standoff/desert_standoff_fbg.png" type="Texture" id=13]
+[ext_resource path="res://tscnes/ai/vsbot_ai.tscn" type="PackedScene" id=14]
+[ext_resource path="res://tscnes/GUI/display/pause_screen.tscn" type="PackedScene" id=15]
+
+[sub_resource type="LineShape2D" id=1]
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.25
+bounce = 0.5
+
+[sub_resource type="DynamicFont" id=3]
+size = 38
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 38
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 29
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 100, 20 )
+
+[sub_resource type="DynamicFont" id=9]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=10]
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("../p1_score:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 2.54912, 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("../p2_score:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 2.54912, 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
+[node name="desert_standoff" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 340.0 ],
+"_edit_vertical_guides_": [ 756.0, 511.977 ]
+}
+GUI_Node = NodePath("canvas/GUI_score")
+player_1 = NodePath("player_left")
+player_2 = NodePath("player_right")
+
+[node name="f_bg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="fbg" type="Sprite" parent="f_bg"]
+texture = ExtResource( 13 )
+centered = false
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+normal_size_rect = Vector2( 1000, 600 )
+
+[node name="misc" type="Sprite" parent="."]
+texture = ExtResource( 7 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="colls" type="StaticBody2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="border" type="CollisionShape2D" parent="colls"]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="border2" type="CollisionShape2D" parent="colls"]
+position = Vector2( 998.475, -3.8147e-06 )
+rotation = -1.5708
+shape = SubResource( 1 )
+
+[node name="main_coll" type="CollisionPolygon2D" parent="colls"]
+polygon = PoolVector2Array( -2.60782, 0.178093, 77.2953, 181.905, 78.0024, 108.365, 126.086, 291.506, 133.157, 248.373, 149.42, 398.279, 850.241, 398.986, 860.848, 288.678, 876.404, 266.757, 885.596, 295.749, 913.174, 183.319, 922.366, 160.691, 938.629, 215.846, 966.914, 61.6964, 998.615, -1.2613, 998.05, 602.718, 6.39282, 592.123 )
+
+[node name="spawns" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="1" type="Position2D" parent="spawns"]
+position = Vector2( 259.542, 382.428 )
+
+[node name="2" type="Position2D" parent="spawns"]
+position = Vector2( 820.495, 390.469 )
+
+[node name="player_left" parent="." instance=ExtResource( 12 )]
+position = Vector2( 253.537, 365.139 )
+physics_material_override = SubResource( 2 )
+camera_node = NodePath("../dynamic_camera")
+
+[node name="player_right" parent="." instance=ExtResource( 12 )]
+position = Vector2( 823.534, 369.12 )
+physics_material_override = SubResource( 2 )
+player = "red"
+camera_node = NodePath("../dynamic_camera")
+
+[node name="bg" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 8 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="pause_screen" parent="canvas" instance=ExtResource( 15 )]
+
+[node name="GUI_score" type="Control" parent="canvas"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -984.0
+margin_bottom = -536.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+changed_Value_Node = NodePath("cv")
+
+[node name="p1_score" type="Label" parent="canvas/GUI_score"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 175.0
+margin_top = 17.0
+margin_right = 215.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.133333, 0, 1, 1 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p1_w" type="Label" parent="canvas/GUI_score"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 17.0
+margin_right = 60.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0.819608, 1, 1 )
+text = "1
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p2_score" type="Label" parent="canvas/GUI_score"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 809.0
+margin_top = 17.0
+margin_right = 831.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p2_w" type="Label" parent="canvas/GUI_score"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 954.0
+margin_top = 17.0
+margin_right = 994.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 0.576471, 0.576471, 1 )
+text = "1
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p_won" type="Label" parent="canvas/GUI_score"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 382.411
+margin_top = 50.0
+margin_right = 622.411
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 7 )
+text = "pause"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="TouchScreenButton" parent="canvas/GUI_score/p_won"]
+pause_mode = 2
+position = Vector2( 109.566, 468.037 )
+shape = SubResource( 8 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="canvas/GUI_score/p_won/back"]
+texture = ExtResource( 6 )
+
+[node name="back" type="Label" parent="canvas/GUI_score/p_won/back/spr"]
+margin_left = -48.1376
+margin_top = -7.55103
+margin_right = 59.8624
+margin_bottom = 8.44904
+custom_fonts/font = SubResource( 9 )
+text = "back to menu"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cv" type="Node" parent="canvas/GUI_score"]
+pause_mode = 2
+script = ExtResource( 5 )
+dyn_cam = NodePath("../../../dynamic_camera")
+J1 = NodePath("../../joystick1")
+J2 = NodePath("../../joystick2")
+lbl_won = NodePath("../p_won")
+
+[node name="p1" type="AnimationPlayer" parent="canvas/GUI_score/cv"]
+anims/def = SubResource( 10 )
+
+[node name="p2" type="AnimationPlayer" parent="canvas/GUI_score/cv"]
+anims/def = SubResource( 11 )
+
+[node name="tmr" type="Timer" parent="canvas/GUI_score/cv"]
+wait_time = 0.5
+one_shot = true
+
+[node name="joystick1" parent="canvas" instance=ExtResource( 10 )]
+margin_left = 199.997
+margin_top = 450.978
+margin_right = -801.003
+margin_bottom = -118.022
+scale_multiplier = 2.0
+
+[node name="joystick2" parent="canvas" instance=ExtResource( 10 )]
+anchor_left = 1.0
+margin_left = -200.268
+margin_top = 450.864
+margin_right = -172.268
+margin_bottom = -108.136
+side = "right"
+scale_multiplier = 2.0
+
+[node name="dynamic_camera" parent="." instance=ExtResource( 11 )]
+position = Vector2( 442.476, 173.784 )
+zoom = Vector2( 0.1, 0.1 )
+limit_left = 0
+limit_top = 0
+limit_right = 1000
+limit_bottom = 600
+first_object = NodePath("../player_left")
+second_object = NodePath("../player_right")
+zoom_speed = 20.0
+bottom_zoom_val = 0.15
+top_zoom_val = 0.975
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+autoplay = true
+bus = "Music"
+
+[node name="vsbot_ai" parent="." instance=ExtResource( 14 )]
+position = Vector2( -57.2859, 86.7383 )
+control_base = NodePath("../player_right")
+enemy = NodePath("../player_left")
+
+[connection signal="pressed" from="canvas/GUI_score/p_won/back" to="canvas/GUI_score/cv" method="_on_back_pressed"]
+[connection signal="timeout" from="canvas/GUI_score/cv/tmr" to="canvas/GUI_score/cv" method="_on_tmr_timeout"]
+[connection signal="joystick_out" from="canvas/joystick1" to="player_left" method="_on_joystick"]
+[connection signal="joystick_out" from="canvas/joystick2" to="player_right" method="_on_joystick"]

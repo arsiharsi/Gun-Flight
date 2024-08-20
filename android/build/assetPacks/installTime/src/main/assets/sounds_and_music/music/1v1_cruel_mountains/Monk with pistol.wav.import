@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Monk with pistol.wav-79c5df4afd348a9e70fe7e9f65d5a93c.sample"
+
+[deps]
+
+source_file="res://sounds_and_music/music/1v1_cruel_mountains/Monk with pistol.wav"
+dest_files=[ "res://.import/Monk with pistol.wav-79c5df4afd348a9e70fe7e9f65d5a93c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

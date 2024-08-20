@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snowy night.wav-a2988af0701d42f59f1b67cfcbee862a.sample"
+
+[deps]
+
+source_file="res://sounds_and_music/music/1v1_paper_street/snowy night.wav"
+dest_files=[ "res://.import/snowy night.wav-a2988af0701d42f59f1b67cfcbee862a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/weapons/bullets/bullet_visibility.gd" type="Script" id=1]
+
+[node name="bullet_visibility" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 1 )

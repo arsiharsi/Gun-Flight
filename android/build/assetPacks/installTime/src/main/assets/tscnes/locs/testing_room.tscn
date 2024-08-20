@@ -1,0 +1,351 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://tscnes/players/player_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://tscnes/GUI/controls/joystick.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tscnes/GUI/display/dynamic_camera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/for_maps/locations_script.gd" type="Script" id=4]
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scripts/GUI/display/GUI_score.gd" type="Script" id=6]
+[ext_resource path="res://scripts/for_maps/test_map/cv.gd" type="Script" id=7]
+[ext_resource path="res://tscnes/ai/vsbot_ai.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sprites/menu/buttons/button_main.png" type="Texture" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 523.476, 25.0366 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 38
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 38
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 29
+font_data = ExtResource( 5 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 100, 20 )
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 5 )
+
+[sub_resource type="Animation" id=9]
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("../p1_score:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 2.54912, 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("../p2_score:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 2.54912, 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
+[node name="testing_room" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 450.978, 16.7835 ],
+"_edit_vertical_guides_": [ 199.997, 823.732, 235.095, 511.615 ]
+}
+weapons_order = [ "knife", "knife", "knife", "knife", "knife", "knife", "knife", "knife", "knife", "knife" ]
+GUI_Node = NodePath("canvas/GUI_score")
+player_1 = NodePath("player_left")
+player_2 = NodePath("player_right")
+
+[node name="spawns" type="Node2D" parent="."]
+
+[node name="1" type="Position2D" parent="spawns"]
+position = Vector2( 824, 400 )
+
+[node name="2" type="Position2D" parent="spawns"]
+position = Vector2( 200, 400 )
+
+[node name="floor" type="StaticBody2D" parent="."]
+position = Vector2( 492.076, 552.393 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="coll" type="CollisionShape2D" parent="floor"]
+shape = SubResource( 1 )
+
+[node name="base_text" type="ColorRect" parent="floor/coll"]
+margin_left = -479.0
+margin_top = -25.0
+margin_right = 477.0
+margin_bottom = 26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="floor2" type="StaticBody2D" parent="."]
+position = Vector2( -16.3996, 203.307 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="coll" type="CollisionShape2D" parent="floor2"]
+shape = SubResource( 1 )
+
+[node name="base_text" type="ColorRect" parent="floor2/coll"]
+margin_left = -394.0
+margin_top = -25.0
+margin_right = 394.0
+margin_bottom = 26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="floor3" type="StaticBody2D" parent="."]
+position = Vector2( 999.429, 198.817 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="coll" type="CollisionShape2D" parent="floor3"]
+shape = SubResource( 1 )
+
+[node name="base_text" type="ColorRect" parent="floor3/coll"]
+margin_left = -394.0
+margin_top = -25.0
+margin_right = 394.0
+margin_bottom = 26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="floor4" type="StaticBody2D" parent="."]
+position = Vector2( 999.429, 198.817 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="coll" type="CollisionShape2D" parent="floor4"]
+shape = SubResource( 1 )
+
+[node name="base_text" type="ColorRect" parent="floor4/coll"]
+margin_left = -394.0
+margin_top = -25.0
+margin_right = 394.0
+margin_bottom = 26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_left" parent="." instance=ExtResource( 1 )]
+position = Vector2( 54.7026, 490.671 )
+camera_node = NodePath("../dynamic_camera")
+weapon = "bazooka"
+
+[node name="player_right" parent="." instance=ExtResource( 1 )]
+position = Vector2( 937.435, 498.592 )
+player = "red"
+camera_node = NodePath("../dynamic_camera")
+
+[node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="GUI_score" type="Control" parent="canvas"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -984.0
+margin_bottom = -536.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+changed_Value_Node = NodePath("cv")
+
+[node name="p1_score" type="Label" parent="canvas/GUI_score"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 175.0
+margin_top = 17.0
+margin_right = 215.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.133333, 0, 1, 1 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p1_w" type="Label" parent="canvas/GUI_score"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 17.0
+margin_right = 60.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0.819608, 1, 1 )
+text = "1
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p2_score" type="Label" parent="canvas/GUI_score"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 809.0
+margin_top = 17.0
+margin_right = 831.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p2_w" type="Label" parent="canvas/GUI_score"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 954.0
+margin_top = 17.0
+margin_right = 994.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.576471, 0.576471, 1 )
+text = "1
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="p_won" type="Label" parent="canvas/GUI_score"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 382.411
+margin_top = -2.15472
+margin_right = 622.411
+margin_bottom = 27.8453
+custom_fonts/font = SubResource( 6 )
+text = "player num won!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="TouchScreenButton" parent="canvas/GUI_score/p_won"]
+position = Vector2( 109.566, 468.037 )
+shape = SubResource( 7 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="canvas/GUI_score/p_won/back"]
+texture = ExtResource( 9 )
+
+[node name="back" type="Label" parent="canvas/GUI_score/p_won/back/spr"]
+margin_left = -48.1376
+margin_top = -7.55103
+margin_right = 59.8624
+margin_bottom = 8.44904
+custom_fonts/font = SubResource( 8 )
+text = "back to menu"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cv" type="Node" parent="canvas/GUI_score"]
+script = ExtResource( 7 )
+dyn_cam = NodePath("../../../dynamic_camera")
+J1 = NodePath("../../joystick")
+J2 = NodePath("../../joystick2")
+lbl_won = NodePath("../p_won")
+
+[node name="p1" type="AnimationPlayer" parent="canvas/GUI_score/cv"]
+anims/def = SubResource( 9 )
+
+[node name="p2" type="AnimationPlayer" parent="canvas/GUI_score/cv"]
+anims/def = SubResource( 10 )
+
+[node name="tmr" type="Timer" parent="canvas/GUI_score/cv"]
+wait_time = 0.5
+
+[node name="joystick" parent="canvas" instance=ExtResource( 2 )]
+margin_left = 200.0
+margin_top = 450.0
+margin_right = -801.0
+margin_bottom = -119.0
+
+[node name="joystick2" parent="canvas" instance=ExtResource( 2 )]
+anchor_left = 1.0
+margin_left = -200.0
+margin_top = 450.0
+margin_right = -172.0
+margin_bottom = -109.0
+side = "right"
+
+[node name="dynamic_camera" parent="." instance=ExtResource( 3 )]
+position = Vector2( 261.026, -139.546 )
+zoom = Vector2( 0.4, 0.4 )
+first_object = NodePath("../player_left")
+second_object = NodePath("../player_right")
+zoom_speed = 10.0
+
+[node name="vsbot_ai" parent="." instance=ExtResource( 8 )]
+control_base = NodePath("../player_right")
+enemy = NodePath("../player_left")
+
+[connection signal="timeout" from="canvas/GUI_score/cv/tmr" to="canvas/GUI_score/cv" method="_on_tmr_timeout"]
+[connection signal="joystick_out" from="canvas/joystick" to="player_left" method="_on_joystick"]
+[connection signal="joystick_out" from="canvas/joystick2" to="player_right" method="_on_joystick"]

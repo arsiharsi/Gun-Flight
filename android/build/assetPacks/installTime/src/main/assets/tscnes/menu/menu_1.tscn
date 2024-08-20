@@ -1,0 +1,2057 @@
+[gd_scene load_steps=103 format=2]
+
+[ext_resource path="res://sprites/menu/bgs/sky.png" type="Texture" id=1]
+[ext_resource path="res://sprites/menu/bgs/city.png" type="Texture" id=2]
+[ext_resource path="res://sprites/menu/bgs/stars.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Weapons/m_gun.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Weapons/laser.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Weapons/grenade_launcher.png" type="Texture" id=6]
+[ext_resource path="res://sprites/Weapons/bazooka.png" type="Texture" id=7]
+[ext_resource path="res://sprites/Anims/Blue/Idle.png" type="Texture" id=8]
+[ext_resource path="res://sprites/Anims/Red/Idle.png" type="Texture" id=9]
+[ext_resource path="res://scripts/others_and_stuff/strech_to_rect.gd" type="Script" id=10]
+[ext_resource path="res://sprites/menu/labels/gf_log.png" type="Texture" id=11]
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://shaders/menu_logo_and_buttons.gdshader" type="Shader" id=13]
+[ext_resource path="res://sprites/menu/buttons/button_main.png" type="Texture" id=14]
+[ext_resource path="res://scripts/menu/menu_1.gd" type="Script" id=15]
+[ext_resource path="res://sounds_and_music/music/menu_1/murderer in town.wav" type="AudioStream" id=16]
+[ext_resource path="res://scripts/menu/map_select_buttons.gd" type="Script" id=17]
+[ext_resource path="res://scripts/menu/weapon_order_butttons.gd" type="Script" id=18]
+[ext_resource path="res://sprites/menu/buttons/hide_buttons.png" type="Texture" id=19]
+[ext_resource path="res://scripts/menu/weapon_change_scr.gd" type="Script" id=20]
+[ext_resource path="res://sprites/menu/bgs/w_ch_bg.png" type="Texture" id=21]
+[ext_resource path="res://sprites/menu/buttons/start.png" type="Texture" id=22]
+[ext_resource path="res://sprites/menu/loading_map/dark.png" type="Texture" id=23]
+[ext_resource path="res://sprites/menu/loading_map/blood.png" type="Texture" id=24]
+[ext_resource path="res://tscnes/GUI/display/console_of_val.tscn" type="PackedScene" id=25]
+[ext_resource path="res://tscnes/misc/ad_shower.tscn" type="PackedScene" id=26]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec2 transform = vec2(UV.y*sin(TIME/2.0), UV.x*cos(TIME/2.0));
+	COLOR = (texture(TEXTURE, UV) + vec4(transform,sin(TIME/2.0),1)*0.1);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec2 transform = vec2(UV.y*sin(TIME/2.0), UV.x*cos(TIME/2.0));
+	COLOR = (texture(TEXTURE, UV) + vec4(transform,sin(TIME/2.0),1)*0.25)*(cos(TIME/4.0));
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec2 transform = vec2(UV.y*sin(TIME/2.0), UV.x*cos(TIME/2.0));
+	COLOR = (texture(TEXTURE, UV) + 
+	vec4(cos(TIME/4.0),transform,1)*0.5)*(clamp(cos(TIME/4.0), 0.6,1.0))*texture(TEXTURE,UV);
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "def"
+length = 5.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -256, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 100, 20 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 23
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 75, 13 )
+
+[sub_resource type="DynamicFont" id=12]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 75, 11.311 )
+
+[sub_resource type="StreamTexture" id=14]
+load_path = "res://.import/button_main.png-7e74b04a384b87976d6476ec34f53ea7.stex"
+
+[sub_resource type="DynamicFont" id=15]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 41
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 15
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=18]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="DynamicFont" id=20]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="DynamicFont" id=22]
+size = 18
+font_data = ExtResource( 12 )
+
+[sub_resource type="StreamTexture" id=23]
+load_path = "res://.import/button_main.png-7e74b04a384b87976d6476ec34f53ea7.stex"
+
+[sub_resource type="DynamicFont" id=24]
+font_data = ExtResource( 12 )
+
+[sub_resource type="StreamTexture" id=25]
+load_path = "res://.import/button_main.png-7e74b04a384b87976d6476ec34f53ea7.stex"
+
+[sub_resource type="DynamicFont" id=26]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=27]
+size = 18
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=28]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=29]
+extents = Vector2( 50, 20 )
+
+[sub_resource type="DynamicFont" id=30]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=31]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=32]
+extents = Vector2( 50, 10 )
+
+[sub_resource type="DynamicFont" id=33]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=34]
+extents = Vector2( 50, 10 )
+
+[sub_resource type="RectangleShape2D" id=35]
+extents = Vector2( 50, 20 )
+
+[sub_resource type="GDScript" id=36]
+script/source = "extends TouchScreenButton
+export var map = \"Random\"
+export(String) var map_path
+export (NodePath) var main_node
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func pressed():
+	if get_node_or_null(main_node):
+		get_node(main_node).map_selected = map
+		get_node(main_node).map_path = map_path
+	pass # Replace with function body.
+"
+
+[sub_resource type="RectangleShape2D" id=37]
+extents = Vector2( 50, 20 )
+
+[sub_resource type="GDScript" id=38]
+script/source = "extends TouchScreenButton
+export var map = \"Random\"
+export(String) var map_path
+export (NodePath) var main_node
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func pressed():
+	if get_node_or_null(main_node):
+		get_node(main_node).map_selected = map
+		get_node(main_node).map_path = map_path
+	pass # Replace with function body.
+"
+
+[sub_resource type="RectangleShape2D" id=39]
+extents = Vector2( 50, 10 )
+
+[sub_resource type="GDScript" id=40]
+script/source = "extends TouchScreenButton
+export var map = \"Random\"
+export(String) var map_path
+export (NodePath) var main_node
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func pressed():
+	if get_node_or_null(main_node):
+		get_node(main_node).map_selected = map
+		get_node(main_node).map_path = map_path
+	pass # Replace with function body.
+"
+
+[sub_resource type="RectangleShape2D" id=41]
+extents = Vector2( 50, 10 )
+
+[sub_resource type="GDScript" id=42]
+script/source = "extends TouchScreenButton
+export var map = \"Random\"
+export(String) var map_path
+export (NodePath) var main_node
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func pressed():
+	if get_node_or_null(main_node):
+		get_node(main_node).map_selected = map
+		get_node(main_node).map_path = map_path
+	pass # Replace with function body.
+"
+
+[sub_resource type="RectangleShape2D" id=43]
+extents = Vector2( 100, 20 )
+
+[sub_resource type="Shader" id=44]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec2 transform;
+	transform = vec2((UV.x) * sin(TIME/2.0), (UV.y) * cos(TIME/2.0));
+	COLOR = texture(TEXTURE,UV) * vec4(cos(TIME/4.0),transform.x , transform.y,0.5);
+}"
+
+[sub_resource type="ShaderMaterial" id=45]
+shader = SubResource( 44 )
+
+[sub_resource type="DynamicFont" id=46]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=47]
+extents = Vector2( 50, 20 )
+
+[sub_resource type="ShaderMaterial" id=48]
+shader = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=49]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=50]
+extents = Vector2( 200, 40 )
+
+[sub_resource type="DynamicFont" id=51]
+size = 31
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=52]
+extents = Vector2( 200, 40 )
+
+[sub_resource type="RectangleShape2D" id=53]
+extents = Vector2( 200, 40 )
+
+[sub_resource type="DynamicFont" id=54]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=55]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="DynamicFont" id=56]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=57]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=58]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=59]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=60]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=61]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=62]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=63]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=64]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=65]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="RectangleShape2D" id=66]
+extents = Vector2( 100, 15 )
+
+[sub_resource type="DynamicFont" id=67]
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=68]
+extents = Vector2( 100, 20 )
+
+[sub_resource type="Shader" id=69]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec2 transform;
+	transform = vec2((UV.x) * sin(TIME/2.0), (UV.y) * cos(TIME/2.0));
+	COLOR = texture(TEXTURE,UV) * vec4(cos(TIME/4.0),transform.x , transform.y,1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=70]
+shader = SubResource( 69 )
+
+[sub_resource type="DynamicFont" id=71]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=74]
+font_data = ExtResource( 12 )
+
+[sub_resource type="StyleBoxEmpty" id=72]
+
+[sub_resource type="StyleBoxEmpty" id=73]
+
+[sub_resource type="Animation" id=75]
+tracks/0/type = "value"
+tracks/0/path = NodePath("pos_b_d/blood:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1e-05 ), Vector2( 1, 28.8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("pos_b_d/dark:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1e-05 ), Vector2( 1, 28.8 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("../../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "load_map"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("loading:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("pos_b_d/pb:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="DynamicFont" id=76]
+font_data = ExtResource( 12 )
+
+[node name="menu" type="Node2D"]
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_vertical_guides_": [ 512.244, 342.457, 256.834, 681.975 ]
+}
+ad_shower_node = NodePath("misc/ad_shower")
+
+[node name="misc" type="Node" parent="."]
+
+[node name="ad_shower" parent="misc" instance=ExtResource( 26 )]
+
+[node name="cl" type="CanvasLayer" parent="."]
+
+[node name="far_bg" type="ParallaxBackground" parent="cl"]
+
+[node name="misc" type="Position2D" parent="cl/far_bg"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="stars" type="Sprite" parent="cl/far_bg/misc"]
+material = SubResource( 2 )
+texture = ExtResource( 3 )
+centered = false
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="weapons" type="Position2D" parent="cl/far_bg/misc"]
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="0" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 403.601, 337.872 )
+rotation = -1.88762
+scale = Vector2( 10.6457, 10.6457 )
+texture = ExtResource( 5 )
+
+[node name="1" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 225.413, 431.404 )
+rotation = -1.38347
+scale = Vector2( 10.6457, 10.6457 )
+texture = ExtResource( 7 )
+
+[node name="2" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 760.778, 424.118 )
+rotation = -2.00974
+scale = Vector2( 10.6457, 10.6457 )
+texture = ExtResource( 6 )
+
+[node name="3" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 520.413, 376.404 )
+rotation = -0.996325
+scale = Vector2( 10.6457, 10.6457 )
+texture = ExtResource( 4 )
+
+[node name="p_blue" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 100.372, 373.761 )
+scale = Vector2( 14.1824, 14.1824 )
+texture = ExtResource( 8 )
+flip_h = true
+
+[node name="p_blue2" type="Sprite" parent="cl/far_bg/misc/weapons"]
+modulate = Color( 1, 1, 1, 0.5 )
+position = Vector2( 912.913, 404.274 )
+scale = Vector2( 14.1824, 14.1824 )
+texture = ExtResource( 9 )
+
+[node name="sky" type="Sprite" parent="cl/far_bg/misc"]
+material = SubResource( 4 )
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="0" type="ParallaxLayer" parent="cl/far_bg"]
+motion_scale = Vector2( 1024, 576 )
+motion_mirroring = Vector2( 1024, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="city" type="Sprite" parent="cl/far_bg/0"]
+material = SubResource( 6 )
+texture = ExtResource( 2 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="def" type="AnimationPlayer" parent="cl/far_bg/0"]
+autoplay = "def"
+playback_speed = 0.25
+anims/def = SubResource( 7 )
+
+[node name="l_side" type="Control" parent="cl"]
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = -536.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="1v1" type="Position2D" parent="cl/l_side"]
+visible = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="sw" type="CheckBox" parent="cl/l_side/1v1"]
+margin_top = 283.105
+margin_right = 313.0
+margin_bottom = 350.105
+pressed = true
+icon = ExtResource( 14 )
+expand_icon = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="l" type="Label" parent="cl/l_side/1v1/sw"]
+margin_left = 48.4187
+margin_top = 24.527
+margin_right = 237.419
+margin_bottom = 40.527
+custom_fonts/font = SubResource( 8 )
+text = "standart weapon order"
+
+[node name="back" type="TouchScreenButton" parent="cl/l_side/1v1"]
+position = Vector2( 99.966, 31.7681 )
+shape = SubResource( 9 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/back"]
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/l_side/1v1/back/spr"]
+margin_left = -26.1626
+margin_top = -10.7029
+margin_right = 25.8374
+margin_bottom = 67.2971
+custom_fonts/font = SubResource( 10 )
+text = "back
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wch" type="Position2D" parent="cl/l_side/1v1"]
+visible = false
+
+[node name="1" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 75.3479, 366.399 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/1"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/1/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="2" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 75.3479, 398.842 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/2"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/2/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="3" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 75.3479, 430.97 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/3"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/3/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="4" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 75.3479, 465.933 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/4"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/4/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="5" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 75.3479, 498.521 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/5"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/5/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="6" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 228.55, 366.399 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/6"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/6/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="7" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 228.55, 398.842 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/7"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/7/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="8" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 228.55, 430.97 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/8"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/8/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="9" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 228.55, 465.933 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/9"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/9/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="10" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 228.55, 498.521 )
+shape = SubResource( 11 )
+shape_centered = false
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/10"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/10/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "1:AAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="randomize" type="TouchScreenButton" parent="cl/l_side/1v1/wch"]
+position = Vector2( 76.3274, 540.466 )
+shape = SubResource( 13 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/wch/randomize"]
+position = Vector2( 0.56123, 0 )
+scale = Vector2( 0.755612, 0.75 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/randomize/spr"]
+margin_left = -78.0
+margin_top = -7.0
+margin_right = 87.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 12 )
+text = "RANDOMIZE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="different_weapons" type="CheckBox" parent="cl/l_side/1v1/wch/randomize"]
+margin_left = 40.4324
+margin_top = -32.973
+margin_right = 251.432
+margin_bottom = 34.027
+rect_scale = Vector2( 0.75, 0.75 )
+rect_pivot_offset = Vector2( 132.86, 33.7921 )
+pressed = true
+icon = SubResource( 14 )
+expand_icon = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="l" type="Label" parent="cl/l_side/1v1/wch/randomize/different_weapons"]
+margin_left = 48.4187
+margin_top = 24.527
+margin_right = 237.419
+margin_bottom = 40.527
+custom_fonts/font = SubResource( 8 )
+text = "Different Weapons"
+
+[node name="hide" type="CheckBox" parent="cl/l_side/1v1/wch"]
+margin_left = 299.173
+margin_top = 520.303
+margin_right = 523.173
+margin_bottom = 578.303
+rect_scale = Vector2( 0.75, 0.75 )
+icon = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="cl/l_side/1v1/wch/hide"]
+margin_left = 34.3496
+margin_top = 21.2396
+margin_right = 160.35
+margin_bottom = 37.2396
+custom_fonts/font = SubResource( 15 )
+text = "Hidden Weapons"
+
+[node name="hidden_box" type="Control" parent="cl/l_side/1v1/wch"]
+visible = false
+margin_top = 349.0
+margin_right = 306.0
+margin_bottom = 516.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="box" type="Sprite" parent="cl/l_side/1v1/wch/hidden_box"]
+position = Vector2( 153.622, 82.1084 )
+texture = ExtResource( 19 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/wch/hidden_box/box"]
+margin_left = -146.0
+margin_top = -75.0
+margin_right = 144.0
+margin_bottom = 78.0
+custom_fonts/font = SubResource( 16 )
+text = "TOP SECRET"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="kills_to_change" type="Position2D" parent="cl/l_side/1v1"]
+position = Vector2( 100, 250 )
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/kills_to_change"]
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/kills_to_change/spr"]
+margin_left = -83.0
+margin_top = -12.0
+margin_right = 86.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 17 )
+text = "kills to next weapon:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="extend" type="Sprite" parent="cl/l_side/1v1/kills_to_change/spr"]
+show_behind_parent = true
+position = Vector2( 50, 0 )
+texture = ExtResource( 14 )
+
+[node name="lbl_num" type="Label" parent="cl/l_side/1v1/kills_to_change/spr"]
+margin_left = 80.0
+margin_top = -9.0
+margin_right = 136.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 18 )
+text = "1000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/kills_to_change/spr/lbl_num"]
+
+[node name="+" type="TouchScreenButton" parent="cl/l_side/1v1/kills_to_change"]
+position = Vector2( -67.7804, -46.2787 )
+shape = SubResource( 19 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/kills_to_change/+"]
+scale = Vector2( 0.113384, 0.842933 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/kills_to_change/+"]
+margin_left = -90.9956
+margin_top = -15.0331
+margin_right = 90.0044
+margin_bottom = 15.9669
+rect_pivot_offset = Vector2( 90.4457, 15.4724 )
+custom_fonts/font = SubResource( 20 )
+text = "+"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="-" type="TouchScreenButton" parent="cl/l_side/1v1/kills_to_change"]
+position = Vector2( 106.74, -46.2787 )
+shape = SubResource( 21 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="cl/l_side/1v1/kills_to_change/-"]
+scale = Vector2( 0.113384, 0.842933 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/1v1/kills_to_change/-"]
+margin_left = -90.9956
+margin_top = -15.0331
+margin_right = 90.0044
+margin_bottom = 15.9669
+rect_pivot_offset = Vector2( 90.4457, 15.4724 )
+custom_fonts/font = SubResource( 20 )
+text = "-"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="settings" type="Position2D" parent="cl/l_side"]
+position = Vector2( -215, 0 )
+
+[node name="sound" type="Position2D" parent="cl/l_side/settings"]
+
+[node name="logo_sound" type="Sprite" parent="cl/l_side/settings/sound"]
+position = Vector2( 100, 25 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/sound/logo_sound"]
+margin_left = -90.0
+margin_top = -13.0
+margin_right = 90.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 22 )
+text = "Sound settings:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mus_sett" type="Sprite" parent="cl/l_side/settings/sound"]
+position = Vector2( 99.966, 80.442 )
+texture = SubResource( 23 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/sound/mus_sett"]
+margin_left = -90.0
+margin_top = -13.0
+margin_right = 90.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 24 )
+text = "Music Volume:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider" type="HSlider" parent="cl/l_side/settings/sound/mus_sett"]
+margin_left = -90.0
+margin_top = 25.0
+margin_right = 95.0
+margin_bottom = 41.0
+value = 100.0
+tick_count = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sfx_sett" type="Sprite" parent="cl/l_side/settings/sound"]
+position = Vector2( 99.966, 148.157 )
+texture = SubResource( 25 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/sound/sfx_sett"]
+margin_left = -90.0
+margin_top = -13.0
+margin_right = 90.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 26 )
+text = "SFX Volume:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider" type="HSlider" parent="cl/l_side/settings/sound/sfx_sett"]
+margin_left = -90.0
+margin_top = 25.0
+margin_right = 95.0
+margin_bottom = 41.0
+value = 100.0
+tick_count = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slider2" type="HSlider" parent="cl/l_side/settings/sound/sfx_sett"]
+margin_left = -90.0
+margin_top = 25.0
+margin_right = 95.0
+margin_bottom = 41.0
+value = 100.0
+tick_count = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_1vAI" type="Position2D" parent="cl/l_side/settings"]
+position = Vector2( 0.3479, 208.902 )
+
+[node name="logo_1vAI" type="Sprite" parent="cl/l_side/settings/game_1vAI"]
+position = Vector2( 99.6181, 23.035 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/game_1vAI/logo_1vAI"]
+margin_left = -90.0
+margin_top = -12.0
+margin_right = 95.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 27 )
+text = "Game 1 v AI:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="controller_side" type="Sprite" parent="cl/l_side/settings/game_1vAI"]
+position = Vector2( 99.6521, 74.203 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/game_1vAI/controller_side"]
+margin_left = -92.0
+margin_top = -16.0
+margin_right = 95.0
+margin_bottom = 20.0
+custom_fonts/font = SubResource( 28 )
+text = "Controller Side:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cs_change" type="TouchScreenButton" parent="cl/l_side/settings/game_1vAI"]
+position = Vector2( 99.6181, 114.73 )
+shape = SubResource( 29 )
+shape_centered = false
+
+[node name="spr" type="Sprite" parent="cl/l_side/settings/game_1vAI/cs_change"]
+scale = Vector2( 0.5, 1 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/l_side/settings/game_1vAI/cs_change"]
+margin_left = -23.6386
+margin_top = -11.1122
+margin_right = 21.3614
+margin_bottom = 15.8878
+custom_fonts/font = SubResource( 30 )
+text = "Left"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="console_of_val" parent="cl/l_side" instance=ExtResource( 25 )]
+margin_right = 99.0
+margin_bottom = 92.0
+
+[node name="r_side" type="Control" parent="cl"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1024.0
+margin_right = -984.0
+margin_bottom = -536.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="1v1" type="Position2D" parent="cl/r_side"]
+visible = false
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="f_text" type="Sprite" parent="cl/r_side/1v1"]
+position = Vector2( 864.341, 308.105 )
+scale = Vector2( 1.4, 1 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="l" type="Label" parent="cl/r_side/1v1/f_text"]
+margin_left = -75.0
+margin_top = -7.105
+margin_right = -35.0
+margin_bottom = 8.895
+rect_scale = Vector2( 0.714, 1 )
+custom_fonts/font = SubResource( 31 )
+text = "map:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="map_list" type="Position2D" parent="cl/r_side/1v1"]
+
+[node name="r" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 772.268, 356.073 )
+shape = SubResource( 32 )
+shape_centered = false
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_group_": true
+}
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/r"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/r"]
+margin_left = -25.8284
+margin_top = -8.18949
+margin_right = 28.1716
+margin_bottom = 7.81051
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Random"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coliseum" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 956.01, 355.676 )
+shape = SubResource( 34 )
+shape_centered = false
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_group_": true
+}
+map = "Coliseum"
+map_path = "res://tscnes/locs/maps/1v1_coliseum.tscn"
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/coliseum"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/coliseum"]
+margin_left = -34.502
+margin_top = -8.0
+margin_right = 37.498
+margin_bottom = 8.0
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Coliseum"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cruel_mountains" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 956.01, 393.592 )
+shape = SubResource( 35 )
+shape_centered = false
+script = SubResource( 36 )
+__meta__ = {
+"_edit_group_": true
+}
+map = "Cruel Mountains"
+map_path = "res://tscnes/locs/maps/1v1_cruel_mountains.tscn"
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/cruel_mountains"]
+scale = Vector2( 0.5, 0.992094 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/cruel_mountains"]
+margin_left = -36.907
+margin_top = -17.4614
+margin_right = 46.093
+margin_bottom = 21.5386
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Cruel
+Mountains"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="desert_standoff" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 772.268, 393.592 )
+shape = SubResource( 37 )
+shape_centered = false
+script = SubResource( 38 )
+__meta__ = {
+"_edit_group_": true
+}
+map = "Desert Standoff"
+map_path = "res://tscnes/locs/maps/1v1_desert_standoff.tscn"
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/desert_standoff"]
+scale = Vector2( 0.5, 0.992094 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/desert_standoff"]
+margin_left = -36.748
+margin_top = -23.731
+margin_right = 46.252
+margin_bottom = 30.269
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Desert
+Standoff"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="paper_street" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 770.975, 447.183 )
+scale = Vector2( 1, 2 )
+shape = SubResource( 39 )
+shape_centered = false
+script = SubResource( 40 )
+__meta__ = {
+"_edit_group_": true
+}
+map = "Paper Street"
+map_path = "res://tscnes/locs/maps/1v1_paper_streer.tscn"
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/paper_street"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/paper_street"]
+margin_left = -35.4549
+margin_top = -12.689
+margin_right = 72.5451
+margin_bottom = 22.311
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Paper
+Street"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="panel_housing" type="TouchScreenButton" parent="cl/r_side/1v1/map_list"]
+position = Vector2( 956.01, 449.72 )
+scale = Vector2( 1, 2 )
+shape = SubResource( 41 )
+shape_centered = false
+script = SubResource( 42 )
+__meta__ = {
+"_edit_group_": true
+}
+map = "Panel Housing"
+map_path = "res://tscnes/locs/maps/1v1_panel_housing.tscn"
+main_node = NodePath("../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/r_side/1v1/map_list/panel_housing"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 14 )
+
+[node name="l" type="Label" parent="cl/r_side/1v1/map_list/panel_housing"]
+margin_left = -35.4549
+margin_top = -12.689
+margin_right = 72.5451
+margin_bottom = 22.311
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 26.6094, 8.69489 )
+custom_fonts/font = SubResource( 33 )
+text = "Panel
+Housing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="settings" type="Position2D" parent="cl/r_side"]
+
+[node name="settings_anim" type="Tween" parent="cl/r_side/settings"]
+
+[node name="sett_button" type="TouchScreenButton" parent="cl/r_side/settings"]
+position = Vector2( 924, 25 )
+shape = SubResource( 43 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/r_side/settings/sett_button"]
+material = SubResource( 45 )
+texture = ExtResource( 22 )
+
+[node name="lbl" type="Label" parent="cl/r_side/settings/sett_button"]
+margin_left = -80.0
+margin_top = -12.0
+margin_right = 90.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 46 )
+text = "Settings"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back_button" type="TouchScreenButton" parent="cl/r_side/settings"]
+position = Vector2( 1074, 25 )
+shape = SubResource( 47 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/r_side/settings/back_button"]
+material = SubResource( 45 )
+scale = Vector2( 0.5, 1 )
+texture = ExtResource( 22 )
+
+[node name="lbl" type="Label" parent="cl/r_side/settings/back_button"]
+margin_left = -80.0
+margin_top = -12.0
+margin_right = 90.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 46 )
+text = "Back"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="central" type="Control" parent="cl"]
+anchor_left = 0.499
+anchor_right = 0.499
+anchor_bottom = 1.0
+margin_left = -510.976
+margin_right = -507.976
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="logo" type="Sprite" parent="cl/central"]
+material = SubResource( 48 )
+position = Vector2( 512.244, 89.6906 )
+texture = ExtResource( 11 )
+
+[node name="ttb" type="Label" parent="cl/central"]
+margin_left = 460.944
+margin_top = 192.902
+margin_right = 568.944
+margin_bottom = 208.902
+custom_fonts/font = SubResource( 49 )
+text = "tap to begin"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="buttons" type="Position2D" parent="cl/central"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="1v1" type="TouchScreenButton" parent="cl/central/buttons"]
+position = Vector2( 512, 317 )
+shape = SubResource( 50 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1"]
+position = Vector2( -1.54675, 0 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1"]
+margin_left = -53.9782
+margin_top = -14.2705
+margin_right = 54.0218
+margin_bottom = 17.7295
+rect_pivot_offset = Vector2( 53.7752, 0.222717 )
+custom_fonts/font = SubResource( 51 )
+text = "1 v 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="1vAI" type="TouchScreenButton" parent="cl/central/buttons"]
+position = Vector2( 512, 425.72 )
+shape = SubResource( 52 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1vAI"]
+position = Vector2( -1.54675, 0 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1vAI"]
+margin_left = -53.9782
+margin_top = -13.5
+margin_right = 54.0218
+margin_bottom = 18.5
+rect_pivot_offset = Vector2( 53.7752, 0.222717 )
+custom_fonts/font = SubResource( 51 )
+text = "1 v AI"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tutorial" type="TouchScreenButton" parent="cl/central/buttons"]
+position = Vector2( 512.244, 528.466 )
+shape = SubResource( 53 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/tutorial"]
+position = Vector2( -1.54675, 0 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/tutorial"]
+margin_left = -69.405
+margin_top = -10.1951
+margin_right = 66.595
+margin_bottom = 21.8049
+rect_pivot_offset = Vector2( 53.7752, 0.222717 )
+custom_fonts/font = SubResource( 51 )
+text = "Tutorial"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="t_anim" type="Tween" parent="cl/central/buttons"]
+
+[node name="1v1_change_weapon" type="Control" parent="cl/central/buttons"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="box" type="Sprite" parent="cl/central/buttons/1v1_change_weapon"]
+self_modulate = Color( 1, 1, 1, 0.6 )
+texture = ExtResource( 21 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="lbl_base" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 512.244, 56.7681 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/lbl_base"]
+margin_left = -86.0
+margin_top = -12.0
+margin_right = 91.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 54 )
+text = "Change to:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="0" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 342.318, 105.442 )
+shape = SubResource( 55 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/0"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/0/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="1" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 342.839, 148.157 )
+shape = SubResource( 57 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/1"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/1/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="2" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 342.839, 192.902 )
+shape = SubResource( 58 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/2"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/2/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="3" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 342.318, 238.929 )
+shape = SubResource( 59 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/3"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/3/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="4" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 342.318, 283.105 )
+shape = SubResource( 60 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/4"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/4/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="5" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 681.975, 105.442 )
+shape = SubResource( 61 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/5"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/5/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="6" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 681.975, 148.157 )
+shape = SubResource( 62 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/6"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/6/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="7" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 681.975, 192.902 )
+shape = SubResource( 63 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/7"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/7/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="8" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 681.975, 238.929 )
+shape = SubResource( 64 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/8"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/8/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="9" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 681.975, 283.105 )
+shape = SubResource( 65 )
+shape_centered = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+menu_node = NodePath("../../../../../..")
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/9"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/9/spr"]
+margin_left = -85.0
+margin_top = -12.0
+margin_right = 89.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 56 )
+text = "Pistol"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cancel" type="TouchScreenButton" parent="cl/central/buttons/1v1_change_weapon/box"]
+position = Vector2( 512.244, 540.466 )
+shape = SubResource( 66 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_change_weapon/box/cancel"]
+texture = ExtResource( 14 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_change_weapon/box/cancel/spr"]
+margin_left = -84.0
+margin_top = -12.0
+margin_right = 88.0
+margin_bottom = 13.0
+custom_fonts/font = SubResource( 67 )
+text = "Cancel"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="close_timer" type="Timer" parent="cl/central/buttons/1v1_change_weapon"]
+wait_time = 0.1
+one_shot = true
+
+[node name="1v1_start" type="TouchScreenButton" parent="cl/central/buttons"]
+visible = false
+position = Vector2( 512.244, 505.271 )
+shape = SubResource( 68 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="spr" type="Sprite" parent="cl/central/buttons/1v1_start"]
+material = SubResource( 70 )
+texture = ExtResource( 22 )
+
+[node name="lbl" type="Label" parent="cl/central/buttons/1v1_start/spr"]
+margin_left = -86.0
+margin_top = -13.0
+margin_right = 88.0
+margin_bottom = 16.0
+custom_fonts/font = SubResource( 71 )
+text = "Start!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="loading_screen" type="Position2D" parent="cl/central"]
+
+[node name="pos_b_d" type="Position2D" parent="cl/central/loading_screen"]
+position = Vector2( 512, 288 )
+script = ExtResource( 10 )
+
+[node name="blood" type="Sprite" parent="cl/central/loading_screen/pos_b_d"]
+self_modulate = Color( 1, 1, 1, 0.9 )
+position = Vector2( 0, -288 )
+scale = Vector2( 1, 1e-05 )
+texture = ExtResource( 24 )
+centered = false
+offset = Vector2( -512, 0 )
+
+[node name="dark" type="Sprite" parent="cl/central/loading_screen/pos_b_d"]
+self_modulate = Color( 1, 1, 1, 0.9 )
+position = Vector2( 0, 288 )
+scale = Vector2( 1, 1e-05 )
+texture = ExtResource( 23 )
+centered = false
+offset = Vector2( -512, -100 )
+
+[node name="pb" type="ProgressBar" parent="cl/central/loading_screen/pos_b_d"]
+visible = false
+margin_left = -26.3364
+margin_top = 19.5727
+margin_right = 26.6636
+margin_bottom = 33.5727
+custom_fonts/font = SubResource( 74 )
+custom_styles/fg = SubResource( 72 )
+custom_styles/bg = SubResource( 73 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="anim" type="AnimationPlayer" parent="cl/central/loading_screen"]
+anims/def = SubResource( 75 )
+
+[node name="loading" type="Label" parent="cl/central/loading_screen"]
+visible = false
+margin_left = 480.007
+margin_top = 267.0
+margin_right = 543.007
+margin_bottom = 283.0
+custom_fonts/font = SubResource( 76 )
+text = "LOADING"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 288 )
+current = true
+
+[connection signal="ad_closed" from="misc/ad_shower" to="misc/ad_shower" method="_on_ad_shower_ad_closed"]
+[connection signal="toggled" from="cl/l_side/1v1/sw" to="." method="_on_sw_toggled"]
+[connection signal="pressed" from="cl/l_side/1v1/back" to="." method="_on_1v1_back_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/1" to="cl/l_side/1v1/wch/1" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/2" to="cl/l_side/1v1/wch/2" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/3" to="cl/l_side/1v1/wch/3" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/4" to="cl/l_side/1v1/wch/4" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/5" to="cl/l_side/1v1/wch/5" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/6" to="cl/l_side/1v1/wch/6" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/7" to="cl/l_side/1v1/wch/7" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/8" to="cl/l_side/1v1/wch/8" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/9" to="cl/l_side/1v1/wch/9" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/10" to="cl/l_side/1v1/wch/10" method="_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/wch/randomize" to="." method="_on_randomize_pressed"]
+[connection signal="toggled" from="cl/l_side/1v1/wch/randomize/different_weapons" to="." method="_on_different_weapons_toggled"]
+[connection signal="toggled" from="cl/l_side/1v1/wch/hide" to="." method="_on_hide_weapons_toggled"]
+[connection signal="pressed" from="cl/l_side/1v1/kills_to_change/+" to="." method="_on_add_k_t_ch_pressed"]
+[connection signal="pressed" from="cl/l_side/1v1/kills_to_change/-" to="." method="_on_sub_k_t_ch_pressed"]
+[connection signal="value_changed" from="cl/l_side/settings/sound/mus_sett/slider" to="." method="_on_slider_music_value_changed"]
+[connection signal="value_changed" from="cl/l_side/settings/sound/sfx_sett/slider" to="." method="_on_sfx_value_changed"]
+[connection signal="value_changed" from="cl/l_side/settings/sound/sfx_sett/slider2" to="." method="_on_sfx_value_changed"]
+[connection signal="pressed" from="cl/l_side/settings/game_1vAI/cs_change" to="." method="_on_controll_side_change_pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/r" to="cl/r_side/1v1/map_list/r" method="pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/coliseum" to="cl/r_side/1v1/map_list/coliseum" method="pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/cruel_mountains" to="cl/r_side/1v1/map_list/cruel_mountains" method="pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/desert_standoff" to="cl/r_side/1v1/map_list/desert_standoff" method="pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/paper_street" to="cl/r_side/1v1/map_list/paper_street" method="pressed"]
+[connection signal="pressed" from="cl/r_side/1v1/map_list/panel_housing" to="cl/r_side/1v1/map_list/panel_housing" method="pressed"]
+[connection signal="pressed" from="cl/r_side/settings/sett_button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="cl/r_side/settings/back_button" to="." method="_on_sett_back_button_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1" to="." method="_on_1v1_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1vAI" to="." method="_on_1vAI_pressed"]
+[connection signal="pressed" from="cl/central/buttons/tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/0" to="cl/central/buttons/1v1_change_weapon/box/0" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/1" to="cl/central/buttons/1v1_change_weapon/box/1" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/2" to="cl/central/buttons/1v1_change_weapon/box/2" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/3" to="cl/central/buttons/1v1_change_weapon/box/3" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/4" to="cl/central/buttons/1v1_change_weapon/box/4" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/5" to="cl/central/buttons/1v1_change_weapon/box/5" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/6" to="cl/central/buttons/1v1_change_weapon/box/6" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/7" to="cl/central/buttons/1v1_change_weapon/box/7" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/8" to="cl/central/buttons/1v1_change_weapon/box/8" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/9" to="cl/central/buttons/1v1_change_weapon/box/9" method="_pressed"]
+[connection signal="pressed" from="cl/central/buttons/1v1_change_weapon/box/cancel" to="." method="_on_cancel_w_ch_pressed"]
+[connection signal="timeout" from="cl/central/buttons/1v1_change_weapon/close_timer" to="." method="_on_close_w_ch_timer_timeout"]
+[connection signal="pressed" from="cl/central/buttons/1v1_start" to="." method="_on_1v1_start_pressed"]

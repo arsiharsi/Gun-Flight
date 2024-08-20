@@ -1,0 +1,148 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://scripts/weapons/bullets/rocket.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Weapons/Bullets/RoketAnim/1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Weapons/Bullets/RoketAnim/3.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Weapons/Bullets/RoketAnim/2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Weapons/Bullets/RoketAnim/4.png" type="Texture" id=5]
+[ext_resource path="res://sounds_and_music/weapons/granade_expl.wav" type="AudioStream" id=6]
+[ext_resource path="res://sounds_and_music/weapons/hit_sound.wav" type="AudioStream" id=7]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 0.25
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "def",
+"speed": 24.0
+} ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.503817, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 0.866211, 1, 0, 0.496183, 0, 0, 0, 0 )
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 2.43751
+height = 5.62498
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 90.0
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+colors = PoolColorArray( 0.945313, 1, 0, 1, 0, 0, 0, 0 )
+
+[node name="rocket" type="RigidBody2D"]
+collision_layer = 5
+collision_mask = 5
+mass = 0.4
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 1 )
+death = "gib"
+
+[node name="animation" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "def"
+frame = 3
+playing = true
+
+[node name="parts" type="CPUParticles2D" parent="animation"]
+position = Vector2( -2.51984, 0.47247 )
+amount = 20
+local_coords = false
+direction = Vector2( -1, 0 )
+spread = 20.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+
+[node name="coll" type="CollisionShape2D" parent="."]
+position = Vector2( 2.9375, 0.46875 )
+rotation = 1.57079
+shape = SubResource( 5 )
+disabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="spawn_timer" type="Timer" parent="."]
+wait_time = 0.01
+one_shot = true
+autostart = true
+
+[node name="direction" type="Position2D" parent="."]
+position = Vector2( 10, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="expl_timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="damager_and_booster" type="Area2D" parent="."]
+space_override = 1
+gravity_point = true
+gravity_vec = Vector2( 0, -1 )
+gravity = -5000.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="coll" type="CollisionShape2D" parent="damager_and_booster"]
+shape = SubResource( 6 )
+disabled = true
+
+[node name="grav_timeout" type="Timer" parent="damager_and_booster/coll"]
+wait_time = 0.1
+one_shot = true
+
+[node name="expl_part" type="CPUParticles2D" parent="damager_and_booster/coll"]
+emitting = false
+amount = 16
+lifetime = 0.57
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 321.43
+initial_velocity_random = 0.56
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+scale_amount = 108.14
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
+hue_variation = 1.0
+hue_variation_random = 0.11
+
+[node name="expl" type="AudioStreamPlayer2D" parent="damager_and_booster/coll"]
+stream = ExtResource( 6 )
+volume_db = 24.0
+bus = "SFX"
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+bus = "SFX"
+
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="expl_timer" to="." method="_on_expl_timer_timeout"]
+[connection signal="body_entered" from="damager_and_booster" to="." method="_on_damager_and_booster_body_entered"]
+[connection signal="timeout" from="damager_and_booster/coll/grav_timeout" to="." method="_on_grav_timeout_timeout"]
+[connection signal="finished" from="damager_and_booster/coll/expl" to="." method="_on_expl_finished"]

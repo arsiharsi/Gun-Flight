@@ -1,0 +1,687 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://sprites/locs/tutorial/tutorial_stars_bg.png" type="Texture" id=1]
+[ext_resource path="res://sprites/locs/tutorial/tutorial_fg.png" type="Texture" id=2]
+[ext_resource path="res://tscnes/players/player_base.tscn" type="PackedScene" id=3]
+[ext_resource path="res://tscnes/GUI/controls/joystick.tscn" type="PackedScene" id=4]
+[ext_resource path="res://tscnes/GUI/display/dynamic_camera.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/for_maps/tutorial.gd" type="Script" id=6]
+[ext_resource path="res://fonts/lunchds.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://sounds_and_music/music/tutorial/Training Super Soldier.wav" type="AudioStream" id=8]
+[ext_resource path="res://sounds_and_music/music/tutorial/tutorial start.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds_and_music/music/tutorial/creation.wav" type="AudioStream" id=10]
+[ext_resource path="res://tscnes/others_and_stuff/quote_system.tscn" type="PackedScene" id=11]
+[ext_resource path="res://sprites/locs/tutorial/q_system/guns_q_system.png" type="Texture" id=12]
+[ext_resource path="res://sprites/locs/tutorial/tutorial_side_choose.png" type="Texture" id=13]
+[ext_resource path="res://sprites/menu/buttons/button_main.png" type="Texture" id=14]
+[ext_resource path="res://tscnes/weapons/pickable_weapon.tscn" type="PackedScene" id=15]
+[ext_resource path="res://tscnes/GUI/display/console_of_val.tscn" type="PackedScene" id=16]
+
+[sub_resource type="ShaderMaterial" id=1]
+
+[sub_resource type="LineShape2D" id=2]
+
+[sub_resource type="LineShape2D" id=3]
+
+[sub_resource type="LineShape2D" id=4]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 534.303
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Control
+export (String,\"left\",\"right\") var side = \"left\"
+signal joystick_out(direction, is_shooting)
+var start_pos = Vector2.ZERO
+export var scale_multiplier = 1.0
+export var drag_length = 30.0
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+var new_scale = 1.0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	start_pos = rect_position
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	new_scale = (get_viewport_rect().size.x/1024 + get_viewport_rect().size.y/576)/2
+	new_scale = new_scale*scale_multiplier
+	$body.scale = Vector2(new_scale*drag_length/5, new_scale*drag_length/5)
+	$joycon.scale = Vector2(new_scale, new_scale)
+	if not $joycon.is_pressed():
+		$joycon.position = Vector2.ZERO
+		rect_position = start_pos
+	elif $joycon.position.length() < drag_length*new_scale:
+		emit_signal(\"joystick_out\",$joycon.position.clamped(10),false)
+	elif $joycon.position.length() >= drag_length*new_scale:
+		emit_signal(\"joystick_out\",$joycon.position.clamped(10),true)
+	pass
+
+
+func _input(event):
+	if event is InputEventScreenTouch:
+		if side == \"left\":
+			if $joycon.is_pressed() and event.position.x < get_viewport_rect().size.x/2:
+				rect_global_position = event.position
+		if side == \"right\":
+			if $joycon.is_pressed() and event.position.x > get_viewport_rect().size.x/2:
+				rect_global_position = event.position
+	elif event is InputEventScreenDrag:
+		if side == \"left\":
+			if $joycon.is_pressed() and event.position.x < get_viewport_rect().size.x/2:
+				$joycon.global_position = event.position
+				if $joycon.position.length() > drag_length*new_scale * 2:
+					rect_global_position = event.position - rect_global_position.direction_to(event.position) * (drag_length*new_scale*2)
+				$joycon.position = $joycon.position.clamped(drag_length*new_scale)
+		if side == \"right\":
+			if $joycon.is_pressed() and event.position.x > get_viewport_rect().size.x/2:
+				$joycon.global_position = event.position
+				if $joycon.position.length() > drag_length*new_scale * 2:
+					rect_global_position = event.position - rect_global_position.direction_to(event.position) * (drag_length*new_scale*2)
+				$joycon.position = $joycon.position.clamped(drag_length*new_scale)
+		pass
+"
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 75, 75 )
+
+[sub_resource type="DynamicFont" id=10]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=11]
+outline_size = 2
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=12]
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.05 ) ]
+}
+
+[sub_resource type="DynamicFont" id=13]
+size = 21
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=16]
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="StyleBoxEmpty" id=15]
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 59, 10 )
+
+[sub_resource type="DynamicFont" id=21]
+outline_size = 1
+outline_color = Color( 1, 0, 0, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=17]
+length = 25.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../front/screen/quote:visible_characters")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3, 5, 5.5, 6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 29, 29, 64, 64, 71 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../front/screen:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 6, 16, 17, 18.1, 18.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../front/screen/quote:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 9, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../music_and_sounds/start:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../center/player_base:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../center/player_base:gravity_scale")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0.0, 1.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("../music_and_sounds/creation:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("../music_and_sounds/music:playing")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("../front/screen:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/9/type = "method"
+tracks/9/path = NodePath("..")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 19 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ Color( 1, 0, 0, 1 ), 0.75 ],
+"method": "quoting"
+} ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("../front/screen/skip_tutorial:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0.1, 16 ),
+"transitions": PoolRealArray( 5.85634, 1.46409 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../front/screen:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 10 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "load_map"
+} ]
+}
+
+[sub_resource type="Environment" id=19]
+background_mode = 4
+ambient_light_color = Color( 1, 1, 1, 1 )
+fog_sun_color = Color( 1, 0.666667, 0, 1 )
+fog_depth_enabled = false
+dof_blur_near_distance = 1.0
+dof_blur_near_quality = 0
+glow_intensity = 2.63
+glow_strength = 1.18
+glow_bloom = 0.01
+glow_blend_mode = 0
+glow_hdr_threshold = 0.96
+glow_hdr_luminance_cap = 48.2
+glow_hdr_scale = 1.96
+
+[node name="tutorial" type="Node2D"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_vertical_guides_": [ 511.773 ]
+}
+quote_system = NodePath("front/quote_system")
+main_node = NodePath("center")
+timer_node = NodePath("animations/timer_for_quotes")
+camera_node = NodePath("center/dynamic_camera")
+player_node = NodePath("center/player_base")
+
+[node name="music_and_sounds" type="Node" parent="."]
+
+[node name="music" type="AudioStreamPlayer" parent="music_and_sounds"]
+stream = ExtResource( 8 )
+
+[node name="start" type="AudioStreamPlayer" parent="music_and_sounds"]
+stream = ExtResource( 9 )
+
+[node name="creation" type="AudioStreamPlayer" parent="music_and_sounds"]
+stream = ExtResource( 10 )
+
+[node name="bg" type="ParallaxBackground" parent="."]
+layer = -1
+scroll_base_scale = Vector2( 0.1, 0.1 )
+
+[node name="layer" type="ParallaxLayer" parent="bg"]
+motion_mirroring = Vector2( 1024, 576 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="stars" type="Sprite" parent="bg/layer"]
+material = SubResource( 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="center" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="camera_attention" type="Node2D" parent="center"]
+
+[node name="start" type="Position2D" parent="center/camera_attention"]
+position = Vector2( 256, 432 )
+
+[node name="start2" type="Position2D" parent="center/camera_attention"]
+position = Vector2( 768, 432 )
+
+[node name="weapons" type="Node2D" parent="center"]
+position = Vector2( 0, -576 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="pickable_weapon" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 78.6343, 494.861 )
+weapon = "pistol"
+
+[node name="pickable_weapon2" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 240.5, 494.861 )
+weapon = "uzi"
+
+[node name="pickable_weapon3" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 379.383, 495.28 )
+weapon = "shotgun"
+
+[node name="pickable_weapon4" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 512.617, 494.861 )
+weapon = "m_gun"
+
+[node name="pickable_weapon5" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 596.634, 495.28 )
+weapon = "hand_granade"
+
+[node name="pickable_weapon6" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 642.676, 494.861 )
+weapon = "grenade_launcher"
+
+[node name="pickable_weapon7" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 757, 494.861 )
+
+[node name="pickable_weapon8" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 868, 495.28 )
+weapon = "laser"
+
+[node name="pickable_weapon9" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 917.729, 495.28 )
+weapon = "f_thrower"
+
+[node name="pickable_weapon10" parent="center/weapons" instance=ExtResource( 15 )]
+position = Vector2( 512.617, 282.927 )
+weapon = "knife"
+
+[node name="colls" type="StaticBody2D" parent="center"]
+
+[node name="coll" type="CollisionShape2D" parent="center/colls"]
+position = Vector2( 0, 40 )
+rotation = 3.14159
+shape = SubResource( 2 )
+
+[node name="coll3" type="CollisionShape2D" parent="center/colls"]
+position = Vector2( 504.88, 517.367 )
+shape = SubResource( 3 )
+
+[node name="coll2" type="CollisionShape2D" parent="center/colls"]
+position = Vector2( 40, 223.848 )
+rotation = 1.57079
+shape = SubResource( 4 )
+
+[node name="coll4" type="CollisionShape2D" parent="center/colls"]
+position = Vector2( 981.391, 269.183 )
+rotation = 4.71238
+shape = SubResource( 4 )
+
+[node name="player_base" parent="center" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 512, 288 )
+gravity_scale = 0.0
+camera_node = NodePath("../dynamic_camera")
+weapon = "uzi"
+
+[node name="portal" type="Node2D" parent="center"]
+
+[node name="gravity" type="Area2D" parent="center/portal"]
+visible = false
+position = Vector2( 512, 288 )
+space_override = 1
+gravity = 500.0
+
+[node name="coll" type="CollisionShape2D" parent="center/portal/gravity"]
+shape = SubResource( 5 )
+disabled = true
+
+[node name="portal_parts" type="CPUParticles2D" parent="center/portal"]
+position = Vector2( 512, 288 )
+emitting = false
+amount = 20
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 531.36
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+scale_amount = 326.66
+scale_amount_curve = SubResource( 6 )
+color_ramp = SubResource( 7 )
+
+[node name="dynamic_camera" parent="center" instance=ExtResource( 5 )]
+position = Vector2( 512.617, 285.957 )
+limit_left = 0
+limit_top = 0
+limit_right = 1024
+limit_bottom = 576
+first_object = NodePath("../camera_attention/start")
+second_object = NodePath("../camera_attention/start2")
+bottom_zoom_val = 0.5
+top_zoom_val = 1.0
+
+[node name="fg" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="limits" type="Sprite" parent="fg"]
+texture = ExtResource( 2 )
+centered = false
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="joystick_l" parent="GUI" instance=ExtResource( 4 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 14.403
+margin_left = 200.0
+margin_top = 450.0
+margin_right = 200.0
+margin_bottom = -126.12
+scale_multiplier = 2.0
+
+[node name="joystick_r" parent="GUI" instance=ExtResource( 4 )]
+visible = false
+anchor_left = 1.0
+margin_left = -200.0
+margin_top = 450.0
+margin_right = -200.0
+margin_bottom = 450.0
+script = SubResource( 8 )
+side = "right"
+scale_multiplier = 2.0
+
+[node name="front" type="CanvasLayer" parent="."]
+
+[node name="quote_system" parent="front" instance=ExtResource( 11 )]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 100.0
+margin_right = 275.0
+margin_bottom = -362.0
+
+[node name="nextQ" type="TouchScreenButton" parent="front/quote_system"]
+position = Vector2( -75, 150 )
+normal = ExtResource( 12 )
+shape = SubResource( 9 )
+
+[node name="side_choosing" type="Control" parent="front"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_right = -472.0
+margin_bottom = 40.0
+grow_horizontal = 2
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="TouchScreenButton" parent="front/side_choosing"]
+position = Vector2( 824, 400 )
+normal = ExtResource( 13 )
+
+[node name="left" type="TouchScreenButton" parent="front/side_choosing"]
+position = Vector2( 200, 400 )
+scale = Vector2( -1, 1 )
+normal = ExtResource( 13 )
+
+[node name="choose" type="TouchScreenButton" parent="front/side_choosing"]
+position = Vector2( 412.044, 400 )
+normal = ExtResource( 14 )
+shape_centered = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="front/side_choosing/choose"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -100.0
+margin_right = 105.0
+margin_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0, 1, 0.498039, 1 )
+custom_fonts/font = SubResource( 10 )
+text = "Make your choice..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hints" type="Label" parent="front"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -170.116
+margin_top = 456.0
+margin_right = 163.884
+margin_bottom = 544.0
+rect_scale = Vector2( 1.01256, 1.01256 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 11 )
+text = "Hint:"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="def" type="AnimationPlayer" parent="front/hints"]
+autoplay = "def"
+anims/def = SubResource( 12 )
+
+[node name="screen" type="ColorRect" parent="front"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="quote" type="Label" parent="front/screen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 175.0
+margin_top = 239.084
+margin_right = -156.0
+margin_bottom = -289.916
+custom_fonts/font = SubResource( 13 )
+text = "\"The eagle never lost so much time, 
+as when he submitted to learn of the crow.\" 
+W. Blake"
+align = 2
+percent_visible = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="loading" type="ProgressBar" parent="front/screen"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -21.1236
+margin_top = 214.0
+margin_right = 26.8764
+margin_bottom = 230.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/fg = SubResource( 14 )
+custom_styles/bg = SubResource( 15 )
+step = 1.0
+value = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="skip_tutorial" type="TouchScreenButton" parent="front/screen"]
+position = Vector2( 0, 290 )
+shape = SubResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="lbl" type="Label" parent="front/screen/skip_tutorial"]
+margin_right = 117.0
+margin_bottom = 16.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 21 )
+text = "SKIP TUTORIAL"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="console_of_val" parent="front" instance=ExtResource( 16 )]
+margin_right = 99.0
+margin_bottom = 92.0
+
+[node name="animations" type="Node" parent="."]
+
+[node name="anims" type="AnimationPlayer" parent="animations"]
+autoplay = "begining"
+anims/begining = SubResource( 17 )
+anims/ending = SubResource( 18 )
+
+[node name="we" type="WorldEnvironment" parent="animations"]
+environment = SubResource( 19 )
+
+[node name="timer_for_quotes" type="Timer" parent="animations"]
+one_shot = true
+
+[connection signal="joystick_out" from="GUI/joystick_l" to="." method="_on_joystick_out"]
+[connection signal="joystick_out" from="GUI/joystick_l" to="center/player_base" method="_on_joystick"]
+[connection signal="joystick_out" from="GUI/joystick_r" to="." method="_on_joystick_out"]
+[connection signal="joystick_out" from="GUI/joystick_r" to="center/player_base" method="_on_joystick"]
+[connection signal="pressed" from="front/quote_system/nextQ" to="." method="_on_nextQ_pressed"]
+[connection signal="pressed" from="front/side_choosing/right" to="." method="_on_right_side_choose_pressed"]
+[connection signal="pressed" from="front/side_choosing/left" to="." method="_on_left_side_choose_pressed"]
+[connection signal="pressed" from="front/side_choosing/choose" to="." method="_on_final_choose_side_pressed"]
+[connection signal="pressed" from="front/screen/skip_tutorial" to="." method="load_map"]
+[connection signal="timeout" from="animations/timer_for_quotes" to="." method="_on_timer_for_quotes_timeout"]

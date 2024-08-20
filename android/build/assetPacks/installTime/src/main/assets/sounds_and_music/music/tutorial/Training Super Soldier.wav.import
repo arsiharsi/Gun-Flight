@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Training Super Soldier.wav-710db7025b3d10ebbcb440a697e32ecc.sample"
+
+[deps]
+
+source_file="res://sounds_and_music/music/tutorial/Training Super Soldier.wav"
+dest_files=[ "res://.import/Training Super Soldier.wav-710db7025b3d10ebbcb440a697e32ecc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

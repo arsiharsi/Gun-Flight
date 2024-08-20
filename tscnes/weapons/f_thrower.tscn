@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/Weapons/f_thrower.png" type="Texture" id=1]
+[ext_resource path="res://scripts/weapons/pistol_and_some_others.gd" type="Script" id=2]
+[ext_resource path="res://tscnes/weapons/bullets/fire_bull.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sounds_and_music/weapons/f_thrower_shot.wav" type="AudioStream" id=4]
+
+[node name="f_thrower" type="Sprite"]
+show_behind_parent = true
+texture = ExtResource( 1 )
+offset = Vector2( 11, -0.5 )
+script = ExtResource( 2 )
+feedback = 50
+timeout = 0.1
+bullet = ExtResource( 3 )
+
+[node name="point" type="Position2D" parent="."]
+position = Vector2( 21, -5.5 )
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 24.0
+bus = "SFX"
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
